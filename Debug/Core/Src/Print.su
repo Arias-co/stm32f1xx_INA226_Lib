@@ -1,0 +1,8 @@
+gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
+Print.cpp:16:1:Print::Print()	16	static
+Print.cpp:28:6:)	40	dynamic
+Print.cpp:54:6:)	228	static
+Print.cpp:79:6:void Print::print(std::__cxx11::string)	32	dynamic
+Print.cpp:95:6:void Print::print(char*)	16	static
+Print.cpp:106:6:void Print::print(uint8_t)	16	static
+Print.cpp:117:6:void Print::print(uint8_t*)	16	static

@@ -1,0 +1,4 @@
+gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
+core_cm3.h:1876:26:uint32_t ITM_SendChar(uint32_t)	16	static,ignoring_inline_asm
+Serial.cpp:10:1:Serial::Serial(UART_HandleTypeDef*, Mode_print)	24	static
+Serial.cpp:17:6:virtual void Serial::write(uint8_t*)	32	static

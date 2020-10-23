@@ -1,0 +1,9 @@
+gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
+main.cpp:75:5:int main()	24	static
+main.cpp:134:6:void SystemClock_Config()	72	static
+main.cpp:175:13:void MX_I2C1_Init()	8	static
+main.cpp:209:13:void MX_USART1_UART_Init()	8	static
+main.cpp:242:13:void MX_GPIO_Init()	40	static
+main.cpp:273:6:void Error_Handler()	4	static
+main.cpp:279:1:void __static_initialization_and_destruction_0(int, int)	16	static
+main.cpp:279:1:cpp)	8	static
