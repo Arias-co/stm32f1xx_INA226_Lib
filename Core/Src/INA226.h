@@ -109,24 +109,24 @@ public:
     bool isMathOverflow( void );
     bool isAlert( void );
 
-    float readShuntCurrent( void );
-    float readShuntVoltage( void );
-    float readBusPower( void );
-    float readBusVoltage( void );
-    float readResLoad( void );
+    double readShuntCurrent( void );
+    double readShuntVoltage( void );
+    double readBusPower( void );
+    double readBusVoltage( void );
+    double readResLoad( void );
 
-    float getMaxPossibleCurrent( void );
-    float getMaxCurrent( void );
-    float getMaxShuntVoltage( void );
-    float getMaxPower( void );
+    double getMaxPossibleCurrent( void );
+    double getMaxCurrent( void );
+    double getMaxShuntVoltage( void );
+    double getMaxPower( void );
 
 private:
 
     I2C_HandleTypeDef *hi2c;
 
     uint16_t inaAddress;
-    float currentLSB, powerLSB;
-    float vShuntMax, vBusMax, rShunt;
+    double currentLSB, powerLSB;
+    double vShuntMax, vBusMax, rShunt;
 
     void setMaskEnable( uint16_t mask );
     uint16_t getMaskEnable( void );

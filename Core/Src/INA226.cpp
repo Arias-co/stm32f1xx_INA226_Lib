@@ -48,15 +48,15 @@ bool INA226::calibrate( float rShuntValue, float iMaxCurrentExcepted )
     return true;
 }
 
-float INA226::getMaxPossibleCurrent( void )
+double INA226::getMaxPossibleCurrent( void )
 {
     return ( vShuntMax / rShunt );
 }
 
-float INA226::getMaxCurrent( void )
+double INA226::getMaxCurrent( void )
 {
-    float maxCurrent = ( currentLSB * 32767 );
-    float maxPossible = getMaxPossibleCurrent();
+    double maxCurrent = ( currentLSB * 32767 );
+    double maxPossible = getMaxPossibleCurrent();
 
     if ( maxCurrent > maxPossible )
     {
@@ -68,9 +68,9 @@ float INA226::getMaxCurrent( void )
     }
 }
 
-float INA226::getMaxShuntVoltage( void )
+double INA226::getMaxShuntVoltage( void )
 {
-    float maxVoltage = getMaxCurrent() * rShunt;
+    double maxVoltage = getMaxCurrent() * rShunt;
 
     if ( maxVoltage >= vShuntMax )
     {
@@ -82,31 +82,31 @@ float INA226::getMaxShuntVoltage( void )
     }
 }
 
-float INA226::getMaxPower( void )
+double INA226::getMaxPower( void )
 {
     return ( getMaxCurrent() * vBusMax );
 }
 
-float INA226::readBusPower( void )
+double INA226::readBusPower( void )
 {
     return ( readRegister16( INA226_REG_POWER ) * powerLSB );
 }
 
-float INA226::readShuntCurrent( void )
+double INA226::readShuntCurrent( void )
 {
     return ( readRegister16( INA226_REG_CURRENT ) * currentLSB );
 }
 
-float INA226::readShuntVoltage( void )
+double INA226::readShuntVoltage( void )
 {
-    float voltage;
+    double voltage;
 
     voltage = readRegister16( INA226_REG_SHUNTVOLTAGE );
 
     return ( voltage * 0.0000025 );
 }
 
-float INA226::readBusVoltage( void )
+double INA226::readBusVoltage( void )
 {
     int16_t voltage;
 
@@ -115,9 +115,9 @@ float INA226::readBusVoltage( void )
     return ( voltage * 0.00125 );
 }
 
-float INA226::readResLoad( void )
+double INA226::readResLoad( void )
 {
-    float i, v;
+    double i, v;
     v = INA226::readBusVoltage();
     i = INA226::readShuntCurrent();
     return v / i;

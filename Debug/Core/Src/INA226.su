@@ -1,34 +1,33 @@
-cmath:165:3:constexpr float std::ceil(float)	16	static
-INA226.cpp:4:1:INA226::INA226(I2C_HandleTypeDef*, uint16_t)	24	static
-INA226.cpp:10:6:bool INA226::configure(ina226_averages_t, ina226_busConvTime_t, ina226_shuntConvTime_t, ina226_mode_t)	24	static
-INA226.cpp:25:6:bool INA226::calibrate(float, float)	48	static
-INA226.cpp:51:7:float INA226::getMaxPossibleCurrent()	16	static
-INA226.cpp:56:7:float INA226::getMaxCurrent()	24	static
-INA226.cpp:71:7:float INA226::getMaxShuntVoltage()	24	static
-INA226.cpp:85:7:float INA226::getMaxPower()	16	static
-INA226.cpp:90:7:float INA226::readBusPower()	16	static
-INA226.cpp:95:7:float INA226::readShuntCurrent()	16	static
-INA226.cpp:100:7:float INA226::readShuntVoltage()	32	static
-INA226.cpp:109:7:float INA226::readBusVoltage()	32	static
-INA226.cpp:118:7:float INA226::readResLoad()	24	static
-INA226.cpp:126:19:ina226_averages_t INA226::getAverages()	24	static
-INA226.cpp:137:22:ina226_busConvTime_t INA226::getBusConversionTime()	24	static
-INA226.cpp:148:24:ina226_shuntConvTime_t INA226::getShuntConversionTime()	24	static
-INA226.cpp:159:15:ina226_mode_t INA226::getMode()	24	static
-INA226.cpp:169:6:void INA226::setMaskEnable(uint16_t)	16	static
-INA226.cpp:174:10:uint16_t INA226::getMaskEnable()	16	static
-INA226.cpp:179:6:void INA226::enableShuntOverLimitAlert()	16	static
-INA226.cpp:184:6:void INA226::enableShuntUnderLimitAlert()	16	static
-INA226.cpp:189:6:void INA226::enableBusOvertLimitAlert()	16	static
-INA226.cpp:194:6:void INA226::enableBusUnderLimitAlert()	16	static
-INA226.cpp:199:6:void INA226::enableOverPowerLimitAlert()	16	static
-INA226.cpp:204:6:void INA226::enableConversionReadyAlert()	16	static
-INA226.cpp:209:6:void INA226::setBusVoltageLimit(float)	32	static
-INA226.cpp:215:6:void INA226::setShuntVoltageLimit(float)	32	static
-INA226.cpp:221:6:void INA226::setPowerLimit(float)	24	static
-INA226.cpp:227:6:void INA226::setAlertInvertedPolarity(bool)	24	static
-INA226.cpp:243:6:void INA226::setAlertLatch(bool)	24	static
-INA226.cpp:259:6:bool INA226::isMathOverflow()	16	static
-INA226.cpp:264:6:bool INA226::isAlert()	16	static
-INA226.cpp:269:9:int16_t INA226::readRegister16(uint8_t)	32	static
-INA226.cpp:282:6:void INA226::writeRegister16(uint8_t, uint16_t)	32	static
+INA226.cpp:4:1:INA226::INA226(I2C_HandleTypeDef*, uint16_t)	0	static
+INA226.cpp:51:8:double INA226::getMaxPossibleCurrent()	8	static
+INA226.cpp:56:8:double INA226::getMaxCurrent()	24	static
+INA226.cpp:71:8:double INA226::getMaxShuntVoltage()	24	static
+INA226.cpp:85:8:double INA226::getMaxPower()	8	static
+INA226.cpp:269:9:int16_t INA226::readRegister16(uint8_t)	40	static
+INA226.cpp:90:8:double INA226::readBusPower()	8	static
+INA226.cpp:95:8:double INA226::readShuntCurrent()	8	static
+INA226.cpp:100:8:double INA226::readShuntVoltage()	8	static
+INA226.cpp:109:8:double INA226::readBusVoltage()	8	static
+INA226.cpp:118:8:double INA226::readResLoad()	16	static
+INA226.cpp:126:19:ina226_averages_t INA226::getAverages()	8	static
+INA226.cpp:137:22:ina226_busConvTime_t INA226::getBusConversionTime()	8	static
+INA226.cpp:148:24:ina226_shuntConvTime_t INA226::getShuntConversionTime()	8	static
+INA226.cpp:159:15:ina226_mode_t INA226::getMode()	8	static
+INA226.cpp:174:10:uint16_t INA226::getMaskEnable()	8	static
+INA226.cpp:259:6:bool INA226::isMathOverflow()	8	static
+INA226.cpp:264:6:bool INA226::isAlert()	8	static
+INA226.cpp:282:6:void INA226::writeRegister16(uint8_t, uint16_t)	24	static
+INA226.cpp:10:6:bool INA226::configure(ina226_averages_t, ina226_busConvTime_t, ina226_shuntConvTime_t, ina226_mode_t)	16	static
+INA226.cpp:25:6:bool INA226::calibrate(float, float)	32	static
+INA226.cpp:169:6:void INA226::setMaskEnable(uint16_t)	0	static
+INA226.cpp:227:6:void INA226::setAlertInvertedPolarity(bool)	16	static
+INA226.cpp:243:6:void INA226::setAlertLatch(bool)	16	static
+INA226.cpp:179:6:void INA226::enableShuntOverLimitAlert()	0	static
+INA226.cpp:184:6:void INA226::enableShuntUnderLimitAlert()	0	static
+INA226.cpp:189:6:void INA226::enableBusOvertLimitAlert()	0	static
+INA226.cpp:194:6:void INA226::enableBusUnderLimitAlert()	0	static
+INA226.cpp:199:6:void INA226::enableOverPowerLimitAlert()	0	static
+INA226.cpp:204:6:void INA226::enableConversionReadyAlert()	0	static
+INA226.cpp:209:6:void INA226::setBusVoltageLimit(float)	8	static
+INA226.cpp:215:6:void INA226::setShuntVoltageLimit(float)	8	static
+INA226.cpp:221:6:void INA226::setPowerLimit(float)	8	static

@@ -19,11 +19,13 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "usb_device.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "INA226.h"
 #include "Serial.h"
+#include "usbd_cdc_if.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -47,6 +49,27 @@ UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
 
+class Usb: public Print
+{
+public:
+
+    Usb();
+    virtual void write( uint8_t * text );
+};
+
+Usb::Usb()
+{
+
+}
+
+void Usb::write( uint8_t * text )
+{
+
+    CDC_Transmit_FS( text, strlen( (char*) text ) );
+}
+
+Usb usb;
+
 // Default INA226 address is 0x40
 INA226 ina( &hi2c1 );
 
@@ -60,6 +83,8 @@ static void MX_GPIO_Init( void );
 static void MX_I2C1_Init( void );
 static void MX_USART1_UART_Init( void );
 /* USER CODE BEGIN PFP */
+
+void CDC_ReceiveCallBack( uint8_t * Buf, uint16_t Len );
 
 /* USER CODE END PFP */
 
@@ -98,13 +123,19 @@ int main( void )
     MX_GPIO_Init();
     MX_I2C1_Init();
     MX_USART1_UART_Init();
+    MX_USB_DEVICE_Init();
     /* USER CODE BEGIN 2 */
+
+    /* USER CODE END 2 */
+
+    /* Infinite loop */
+    /* USER CODE BEGIN WHILE */
 
     // Configure INA226
     ina.configure( INA226_AVERAGES_64, INA226_BUS_CONV_TIME_2116US,
             INA226_SHUNT_CONV_TIME_2116US, INA226_MODE_SHUNT_BUS_CONT );
     // Calibrate INA226. Rshunt = 0.11 ohm, Max excepted current = 4A
-    ina.calibrate( 0.11, 4 );
+    ina.calibrate( 0.1091, 4 );
 
     /* USER CODE END 2 */
 
@@ -113,12 +144,19 @@ int main( void )
 
     while ( 1 )
     {
+        usb.print( "Bus voltage: %.3f V \r\n", ina.readBusVoltage() );
+        usb.print( "Bus power: %.3f W \r\n", ina.readBusPower() );
+        usb.print( "Shunt voltage: %.5f V \r\n", ina.readShuntVoltage() );
+        usb.print( "Shunt current: %.5f A \r\n", ina.readShuntCurrent() );
+        usb.print( "Load resistance: %.2f Ohm \r\n", ina.readResLoad() );
+
         serial.print( "Bus voltage: %.3f V \r\n", ina.readBusVoltage() );
         serial.print( "Bus power: %.3f W \r\n", ina.readBusPower() );
         serial.print( "Shunt voltage: %.5f V \r\n", ina.readShuntVoltage() );
-        serial.print( "Shunt current: %.4f A \r\n", ina.readShuntCurrent() );
+        serial.print( "Shunt current: %.5f A \r\n", ina.readShuntCurrent() );
         serial.print( "Load resistance: %.2f Ohm \r\n", ina.readResLoad() );
-        HAL_Delay( 500 );
+
+        HAL_Delay( 600 );
 
         /* USER CODE END WHILE */
 
@@ -136,6 +174,8 @@ void SystemClock_Config( void )
     RCC_OscInitTypeDef RCC_OscInitStruct =
     { 0 };
     RCC_ClkInitTypeDef RCC_ClkInitStruct =
+    { 0 };
+    RCC_PeriphCLKInitTypeDef PeriphClkInit =
     { 0 };
 
     /** Initializes the RCC Oscillators according to the specified parameters
@@ -158,10 +198,16 @@ void SystemClock_Config( void )
             | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
     RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
     RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-    RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV8;
-    RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV8;
+    RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+    RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
     if ( HAL_RCC_ClockConfig( &RCC_ClkInitStruct, FLASH_LATENCY_2 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
+    PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USB;
+    PeriphClkInit.UsbClockSelection = RCC_USBCLKSOURCE_PLL_DIV1_5;
+    if ( HAL_RCCEx_PeriphCLKConfig( &PeriphClkInit ) != HAL_OK )
     {
         Error_Handler();
     }
@@ -247,8 +293,8 @@ static void MX_GPIO_Init( void )
     /* GPIO Ports Clock Enable */
     __HAL_RCC_GPIOC_CLK_ENABLE( );
     __HAL_RCC_GPIOD_CLK_ENABLE( );
-    __HAL_RCC_GPIOA_CLK_ENABLE( );
     __HAL_RCC_GPIOB_CLK_ENABLE( );
+    __HAL_RCC_GPIOA_CLK_ENABLE( );
 
     /*Configure GPIO pin Output Level */
     HAL_GPIO_WritePin( GPIOC, GPIO_PIN_13, GPIO_PIN_RESET );
@@ -260,9 +306,31 @@ static void MX_GPIO_Init( void )
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     HAL_GPIO_Init( GPIOC, &GPIO_InitStruct );
 
+    /*Configure GPIO pin : PC14 */
+    GPIO_InitStruct.Pin = GPIO_PIN_14;
+    GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init( GPIOC, &GPIO_InitStruct );
+
+    /*Configure GPIO pin : PB15 */
+    GPIO_InitStruct.Pin = GPIO_PIN_15;
+    GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init( GPIOB, &GPIO_InitStruct );
+
+    /* EXTI interrupt init*/
+    HAL_NVIC_SetPriority( EXTI15_10_IRQn, 2, 0 );
+    HAL_NVIC_EnableIRQ( EXTI15_10_IRQn );
+
 }
 
 /* USER CODE BEGIN 4 */
+
+void CDC_ReceiveCallBack( uint8_t * Buf, uint16_t Len )
+{
+    HAL_GPIO_TogglePin( GPIOC, GPIO_PIN_13 );
+    usb.print( Buf );
+}
 
 /* USER CODE END 4 */
 
