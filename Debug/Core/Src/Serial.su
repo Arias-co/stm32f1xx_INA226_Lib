@@ -1,2 +1,0 @@
-Serial.cpp:17:6:virtual void Serial::write(uint8_t*)	24	static,ignoring_inline_asm
-Serial.cpp:10:1:Serial::Serial(UART_HandleTypeDef*, Mode_print)	16	static

@@ -73,7 +73,7 @@ Usb usb;
 // Default INA226 address is 0x40
 INA226 ina( &hi2c1 );
 
-Serial serial( &huart1, PRINT_UART );
+Serial serial( &huart1 );
 
 /* USER CODE END PV */
 
